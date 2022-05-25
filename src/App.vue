@@ -1,32 +1,76 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <regLog v-if="currentUser == null" />
+    <div v-else>
+      <div class="fixed border-r py-5 h-full bg-white w-14 left-0 top-0">
+        <i
+          @click="$router.push({ name: 'profile' })"
+          class="
+            fa-solid fa-user
+            block
+            text-center text-2xl
+            my-2
+            hover:cursor-pointer hover:text-main
+          "
+        ></i>
+        <i
+          @click="$router.push({ name: 'home' })"
+          class="
+            fa-solid fa-house
+            block
+            text-center text-2xl
+            my-2
+            hover:cursor-pointer hover:text-main
+          "
+        ></i>
+        <i
+          @click="$router.push({ name: 'messages' })"
+          class="
+            fa-solid fa-message
+            block
+            text-center text-2xl
+            my-2
+            hover:cursor-pointer hover:text-main
+          "
+        ></i>
+      </div>
+      <p
+        @click="logout()"
+        class="
+          absolute
+          top-5
+          right-5
+          p-2
+          rounded-lg
+          bg-slate-200
+          text-black text-lg
+          font-bold
+          hover:cursor-pointer hover:bg-black hover:text-white
+        "
+      >
+        Выйти
+      </p>
+      <router-view />
     </div>
-    <router-view/>
   </div>
 </template>
 
-<style lang="less">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-</style>
+<script>
+import regLog from "./components/RegistrationLogin.vue";
+export default {
+  components: {
+    regLog,
+  },
+  data() {
+    return {
+      currentUser: localStorage.getItem("loggedUser"),
+    };
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem("loggedUser");
+      this.$router.go();
+    },
+  },
+};
+</script>
